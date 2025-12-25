@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Golden Archive</title>
+    <!-- 폰트 불러오기 (인터넷 연결 필수) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+KR:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === 디자인 (CSS) 영역 === */
+        
+        /* Reset 및 기본 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #050505; /* 딥 블랙 */
+            color: #d4af37; /* 메인 골드 */
+            font-family: 'Noto Serif KR', serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 배경 조명 효과 */
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            z-index: -1;
+        }
+
+        /* 헤더 스타일 */
+        .header {
+            text-align: center;
+            padding: 100px 20px 60px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 60px;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        .main-title {
+            /* 시상식 스타일 폰트 */
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            
+            /* 골드 그라디언트 텍스트 */
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            
+            text-shadow: 0px 0px 15px rgba(212, 175, 55, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .sub-title {
+            font-size: 1.2rem;
+            color: #888;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        /* 메인 컨텐츠 영역 */
+        #app {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+            padding-bottom: 100px;
+        }
+
+        /* 연도별 카드 섹션 */
+        .year-section {
+            position: relative;
+            border: 1px solid #d4af37;
+            padding: 40px;
+            background: rgba(10, 10, 10, 0.8);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            
+            /* 스크롤 애니메이션 초기값 */
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .year-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease-out;
+        }
+
+        .year-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        /* 장식용 코너 테두리 */
+        .year-section::before, .year-section::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border: 2px solid #d4af37;
+            transition: all 0.3s ease;
+        }
+
+        .year-section::before {
+            top: -6px;
+            left: -6px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .year-section::after {
+            bottom: -6px;
+            right: -6px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .year-title {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 2.8rem;
+            font-weight: 700;
+            border-bottom: 2px solid #d4af37;
+            display: inline-block;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            color: #fcf6ba;
+        }
+
+        .content-list {
+            list-style: none;
+        }
+
+        .content-item {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 3px solid #b38728;
+        }
+
+        .content-item h3 {
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 8px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .content-item p {
+            color: #ccc;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* 푸터 */
+        .footer {
+            text-align: center;
+            padding: 50px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            color: #555;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 모바일 대응 */
+        @media (max-width: 768px) {
+            .main-title { font-size: 2.5rem; }
+            .year-title { font-size: 2rem; }
+            .year-section { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-overlay"></div>
+
+    <header class="header">
+        <h1 class="main-title">The Golden Archive</h1>
+        <p class="sub-title">High School Memories 2021 - 2023</p>
+    </header>
+
+    <main id="app">
+        <!-- 자바스크립트가 자동으로 채워넣는 공간 -->
+    </main>
+
+    <footer class="footer">
+        <p>© 2024 Designed by Senior Developer. All rights reserved.</p>
+    </footer>
+
+    <script>
+        /* === 데이터 및 로직 (JavaScript) 영역 === */
+
+        // 1. 여기에 내용을 입력하세요.
+        const schoolData = [
+            {
+                year: "2021",
+                events: [
+                    {
+                        title: "1학년, 새로운 시작",
+                        description: "설레는 마음으로 고등학교에 입학했습니다. 학급 반장 선거에 나가 리더십을 발휘했고, 1학년 2학기 내신 등급 1.0을 달성했습니다."
+                    },
+                    {
+                        title: "사회 탐구 동아리",
+                        description: "평소 관심 있던 세계 분쟁을 자유롭게 탐구할 수 있는 의미 있는 시간을 가졌습니다."
+                    }
+                ]
+            },
+            {
+                year: "2022",
+                events: [
+                    {
+                        title: "2학년, 도전과 성장",
+                        description: "학교 축제 기획단으로 활동하며 무대 연출을 담당했습니다. 밤늦게까지 친구들과 준비하며 잊지 못할 추억을 만들었습니다."
+                    },
+                    {
+                        title: "영어 말하기 대회 우수상",
+                        description: "많은 사람들 앞에서 영어로 발표하는 두려움을 극복하고 우수상을 수상하는 쾌거를 이루었습니다."
+                    }
+                ]
+            },
+            {
+                year: "2023",
+                events: [
+                    {
+                        title: "3학년, 결실의 계절",
+                        description: "목표 대학 진학을 위해 학업에 매진했습니다. 플래너를 활용한 자기주도학습으로 성적 향상을 이뤄냈습니다."
+                    },
+                    {
+                        title: "졸업, 그리고 미래",
+                        description: "3년간의 고등학교 생활을 명예롭게 마무리하고, 더 큰 세상으로 나아갈 준비를 마쳤습니다."
+                    }
+                ]
+            }
+        ];
+
+        // 2. 화면에 그려주는 기능
+        const app = document.getElementById('app');
+
+        function render() {
+            schoolData.forEach((data, index) => {
+                // 카드(섹션) 만들기
+                const section = document.createElement('section');
+                section.classList.add('year-section');
+                
+                // 순서대로 나타나게 딜레이 주기
+                section.style.transitionDelay = (index * 0.2) + 's';
+
+                // 내부 글 내용 만들기
+                let eventsHtml = '';
+                data.events.forEach(event => {
+                    eventsHtml += `
+                        <li class="content-item">
+                            <h3>${event.title}</h3>
+                            <p>${event.description}</p>
+                        </li>
+                    `;
+                });
+
+                // HTML 조립
+                section.innerHTML = `
+                    <h2 class="year-title">${data.year}</h2>
+                    <ul class="content-list">
+                        ${eventsHtml}
+                    </ul>
+                `;
+
+                app.appendChild(section);
+            });
+        }
+
+        // 3. 스크롤 애니메이션 기능
+        function initObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.15
+            });
+
+            const sections = document.querySelectorAll('.year-section');
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // 4. 실행
+        document.addEventListener('DOMContentLoaded', () => {
+            render();
+            setTimeout(initObserver, 100);
+        });
+    </script>
+</body>
+</html>
